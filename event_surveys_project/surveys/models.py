@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _ # this doesnt change the functionality of the code
+from django.utils.translation import gettext_lazy as _ # this doesnt change the functionality of the code
 from django.conf import settings # this imports the settings so that we can use our custom auth user model
 
 # Create your models here.
