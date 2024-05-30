@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome to the Home Page</h1>
-</body>
-</html>
+{% extends 'core/base.html' %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block content %}
+  <h1>Welcome to the Survey Site</h1>
+  <p>This is the home page.</p>
+{% endblock %}
