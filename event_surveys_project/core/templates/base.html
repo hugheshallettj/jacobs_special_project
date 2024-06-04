@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,6 +8,8 @@
       {% endblock %}
     </title>
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}" />
+    {% block extra_head %}
+    {% endblock extra_head %}
   </head>
   <body>
     <header>
@@ -20,9 +22,12 @@
           <li>
             <a href="{% url 'create_survey' %}">Create Survey</a>
           </li>
-          <li>
-            <a href="{% url 'account_login' %}">Login</a>
-          </li>
+          {% if user.is_authenticated %}
+            {% comment %} <li><a href="{% url 'account_profile' %}">Profile</a></li> {% endcomment %}
+            <li><a href="{% url 'account_logout' %}">Logout</a></li>
+          {% else %}
+            <li><a href="{% url 'account_login' %}">Login</a></li>
+          {% endif %}
         </ul>
       </nav>
     </header>
