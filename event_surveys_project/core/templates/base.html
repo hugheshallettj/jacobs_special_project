@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,6 +8,8 @@
       {% endblock %}
     </title>
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}" />
+    {% block extra_head %}
+    {% endblock extra_head %}
   </head>
   <body>
     <header>

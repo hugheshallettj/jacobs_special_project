@@ -1,2 +1,5 @@
 {% extends "allauth/layouts/base.html" %}
-{% block content %}{% endblock %}
+{% block allauth_content %}
+    {% block content %}
+    {% endblock content %}  
+{% endblock %}
