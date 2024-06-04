@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-{% load static %}
-=======
 {% load static i18n %}
->>>>>>> feature/user-login
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,11 +8,8 @@
       {% endblock %}
     </title>
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}" />
-<<<<<<< HEAD
-=======
     {% block extra_head %}
     {% endblock extra_head %}
->>>>>>> feature/user-login
   </head>
   <body>
     <header>
@@ -29,18 +22,12 @@
           <li>
             <a href="{% url 'create_survey' %}">Create Survey</a>
           </li>
-<<<<<<< HEAD
-          <li>
-            <a href="{% url 'account_login' %}">Login</a>
-          </li>
-=======
           {% if user.is_authenticated %}
             {% comment %} <li><a href="{% url 'account_profile' %}">Profile</a></li> {% endcomment %}
             <li><a href="{% url 'account_logout' %}">Logout</a></li>
           {% else %}
             <li><a href="{% url 'account_login' %}">Login</a></li>
           {% endif %}
->>>>>>> feature/user-login
         </ul>
       </nav>
     </header>
