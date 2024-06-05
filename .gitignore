@@ -1,7 +1,8 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*/__pycache__/
 *.py[cod]
 *$py.class
+*/migrations/__pycache__/
 
 # C extensions
 *.so
@@ -137,8 +138,3 @@ yarn-error.log
 Network Trash Folder
 Temporary Items
 .apdisk
-event_surveys_project/accounts/migrations/__pycache__/__init__.cpython-312.pyc
-event_surveys_project/accounts/migrations/__pycache__/0001_initial.cpython-312.pyc
-event_surveys_project/core/migrations/__pycache__/__init__.cpython-312.pyc
-event_surveys_project/surveys/migrations/__pycache__/__init__.cpython-312.pyc
-event_surveys_project/surveys/migrations/__pycache__/0001_initial.cpython-312.pyc
