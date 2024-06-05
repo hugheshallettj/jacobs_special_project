@@ -3,7 +3,9 @@
 <h2>Create Survey</h2>
 <form method="post">
   {% csrf_token %}
-  <!-- Survey creation form -->
+  <table>
+    {{form}}
+  </table>
   <button type="submit">Create Survey</button>
 </form>
 {% endblock %}
