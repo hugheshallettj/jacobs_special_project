@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _ # this doesnt change the functionality of the code
 from django.conf import settings # this imports the settings so that we can use our custom auth user model
+from datetime import date
 
 # Create your models here.
 class Survey(models.Model):
@@ -10,6 +11,9 @@ class Survey(models.Model):
     title = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField()
+    date_created = models.DateField(auto_now_add=True)
+    date_modified = models.DateField(auto_now=True)
+    
 
     class Meta:
         verbose_name = _("Survey") # the underscore is a translation key for django

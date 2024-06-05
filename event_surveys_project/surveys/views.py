@@ -33,7 +33,12 @@ def survey_view(request, link):
     if request.method == 'POST':
         # Handle survey response submission
         pass
-    return render(request, 'surveys/survey.html', {'survey': survey})
+    return render(request, 'surveys/survey_view.html', {'survey': survey})
+
+def user_surveys_list(request):
+    user_surveys = Survey.objects.filter(admin=request.user)
+    return render(request, 'surveys/user_surveys_list.html', {'user_surveys': user_surveys})
+    
 
 @login_required
 def survey_results(request, survey_id):
