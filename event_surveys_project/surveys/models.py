@@ -10,14 +10,13 @@ class Survey(models.Model):
     title = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField()
-    link = models.URLField(unique=True)
 
     class Meta:
         verbose_name = _("Survey") # the underscore is a translation key for django
         verbose_name_plural = _("Surveys")
 
     def __str__(self):
-        return f"{self.name}-{self.start_date}"
+        return f"{self.title} | {self.start_date}"
 
     def get_absolute_url(self):
         return reverse("Survey_detail", kwargs={"pk": self.pk})
