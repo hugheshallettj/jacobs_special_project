@@ -23,16 +23,23 @@
             <a href="{% url 'create_survey' %}">Create Survey</a>
           </li>
           {% if user.is_authenticated %}
-            {% comment %} <li><a href="{% url 'account_profile' %}">Profile</a></li> {% endcomment %}
-            <li><a href="{% url 'account_logout' %}">Logout</a></li>
+            {% comment %} <li>
+              <a href="{% url 'account_profile' %}">Profile</a>
+            </li> {% endcomment %}
+            <li>
+              <a href="{% url 'account_logout' %}">Logout</a>
+            </li>
           {% else %}
-            <li><a href="{% url 'account_login' %}">Login</a></li>
+            <li>
+              <a href="{% url 'account_login' %}">Login</a>
+            </li>
           {% endif %}
         </ul>
       </nav>
     </header>
     <main>
       {% block content %}
+
       {% endblock %}
     </main>
     <footer>
