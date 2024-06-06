@@ -142,3 +142,15 @@ a.panel {
 a.panel:hover {
   background-color: #f0f0f0; /* Change to desired hover color */
 }
+
+div.panel {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Ensure no underline on link */
+  color: inherit; /* Ensure the text color is inherited */
+  display: block; /* Make the link block-level to cover the entire div */
+}

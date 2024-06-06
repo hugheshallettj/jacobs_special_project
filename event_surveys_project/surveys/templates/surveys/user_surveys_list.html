@@ -5,7 +5,7 @@
             <h2 style="font-size: 2rem; font-weight: bold; color: #333;">My Surveys</h2>
             <div style="margin-top: 1rem; display: grid; grid-template-columns: 1fr; gap: 10px 6px;">
                 {% for survey in user_surveys %}
-                <a href="https://www.google.com" class="panel" style="color: aqua;">
+                <a href="{% url "survey_edit" survey.id %}" class="panel" style="color: aqua;">
                     <div>
                         <h3 style="font-size: 1.25rem; font-weight: bold; color: #333;">
                             {{survey.title}}

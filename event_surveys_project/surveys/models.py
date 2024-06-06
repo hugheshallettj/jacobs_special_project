@@ -36,6 +36,7 @@ class Question(models.Model):
         ('INT', 'Integer'),
     )
 
+    
     survey = models.ForeignKey(Survey, related_name='questions', on_delete=models.CASCADE)
     question_text = models.CharField(max_length=255)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
@@ -45,7 +46,7 @@ class Question(models.Model):
         verbose_name_plural = _("Questions")
 
     def __str__(self):
-        return self.name
+        return self.question_text
 
     def get_absolute_url(self):
         return reverse("Question_detail", kwargs={"pk": self.pk})
