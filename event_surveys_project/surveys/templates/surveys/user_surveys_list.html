@@ -3,21 +3,19 @@
     <div style="background-color: white;">
         <div style="margin: 0 auto; max-width: 20rem; padding: 16px;">
             <h2 style="font-size: 2rem; font-weight: bold; color: #333;">My Surveys</h2>
-            <div style="margin-top: 10rem; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 6px;">
+            <div style="margin-top: 1rem; display: grid; grid-template-columns: 1fr; gap: 10px 6px;">
                 {% for survey in user_surveys %}
-                <div style="position: relative; border: 1px solid #ccc; border-radius: 8px; padding: 16px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <a href="https://www.google.com" class="panel" style="color: aqua;">
                     <div>
                         <h3 style="font-size: 1.25rem; font-weight: bold; color: #333;">
-                            <a href="#" target="_blank" style="color: #333; text-decoration: none;">
-                                {{survey.title}}
-                            </a>
+                            {{survey.title}}
                         </h3>
                         <p style="margin-top: 8px; font-size: 0.875rem; color: #666;">
                             Created: {{survey.date_created}}
                         </p>
                         <p style="margin-top: 8px; font-size: 0.875rem; color: #666;">Responses: 124 (still to do)</p>
                     </div>
-                </div>
+                </a>
                 <!-- More survey panels... -->
                 {% endfor %}
             </div>

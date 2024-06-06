@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
-  color: #333;
+  color: #15385e;
 }
 
 h1,
@@ -13,11 +13,11 @@ h3,
 h4,
 h5,
 h6 {
-  color: #444;
+  color: #15385e;
 }
 
 a {
-  color: #007bff;
+  color: #6b7988;
   text-decoration: none;
 }
 
@@ -33,7 +33,7 @@ a:hover {
 
 /* Header Styles */
 header {
-  background-color: #007bff;
+  background-color: #15385e;
   color: #fff;
   padding: 10px 0;
   text-align: center;
@@ -118,11 +118,27 @@ th {
 
 /* Footer Styles */
 footer {
-  background-color: #007bff;
+  background-color: #15385e;
   color: #fff;
   text-align: center;
   padding: 10px 0;
   position: fixed;
   width: 100%;
   bottom: 0;
+}
+
+a.panel {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Ensure no underline on link */
+  color: inherit; /* Ensure the text color is inherited */
+  display: block; /* Make the link block-level to cover the entire div */
+}
+
+a.panel:hover {
+  background-color: #f0f0f0; /* Change to desired hover color */
 }
