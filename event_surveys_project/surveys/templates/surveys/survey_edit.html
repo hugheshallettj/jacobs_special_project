@@ -1,25 +1,62 @@
-{% extends 'base.html' %}
-{% block content %}
-  <h1>{{ survey.title }}</h1>
-  {% for question in survey_questions %}
-    <div class="panel" style="color: aqua;">
-      <div>
-        <h3 style="font-size: 1.25rem; font-weight: bold; color: #333;">{{ question.question_text }}</h3>
-        <p style="margin-top: 8px; font-size: 0.875rem; color: #666;">Created: {{ question.question_type }}</p>
-        <p style="margin-top: 8px; font-size: 0.875rem; color: #666;">Responses: 124 (still to do)</p>
-        {% comment %} <form method="post" action="{% url 'delete_question' question.id %}">
-          {% csrf_token %}
-          <button type="submit">Delete</button>
-        </form> {% endcomment %}
-      </div>
-    </div>
-    <!-- More survey panels... -->
-  {% endfor %}
-  <div class="panel">
-    <form method="post">
+{% extends 'base.html' %} {% block content %}
+<h1>{{ survey.title }}</h1>
+<div class="panel">
+  <form method="post">
+    {% csrf_token %}
+    <table>
+      {{ question_form }}
+    </table>
+    <button type="submit">Create Question</button>
+  </form>
+</div>
+{% for question in survey_questions %}
+<div class="panel" style="color: aqua">
+  <div>
+    <h3 style="font-size: 1.25rem; font-weight: bold; color: #333">
+      {{ question.question_text }}
+    </h3>
+    <p style="margin-top: 8px; font-size: 0.875rem; color: #666">
+      Created: {{ question.question_type }}
+    </p>
+    <p style="margin-top: 8px; font-size: 0.875rem; color: #666">
+      Responses: 124 (still to do)
+    </p>
+    <form method="post" action="{% url 'question_delete' question.id %}">
       {% csrf_token %}
-      <table>{{ question_form }}</table>
-      <button type="submit">Create Question</button>
+      <button type="submit">Delete</button>
     </form>
+    <button class="btn-del" data-questionid="{{ question.id }}">Close</button>
   </div>
+</div>
+<!-- More survey panels... -->
+{% endfor %}
+<script>
+  $(document).ready(function () {
+    $(".btn-del").on("click", function () {
+      const button = $(this);
+      const question_id = $(this).data("questionid");
+      console.log(question_id);
+      const url = `{% url 'question_delete' 0 %}`.replace(
+        "/0/",
+        `/${question_id}/`
+      );
+      console.log(url);
+      $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (response) {
+          if (response.success) {
+            button.closest(".panel").css("display", "none");
+            console.log("you deleted it");
+          } else {
+            alert("Failed to delete question: " + response.error);
+          }
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

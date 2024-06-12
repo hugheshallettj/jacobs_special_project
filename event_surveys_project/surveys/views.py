@@ -4,6 +4,7 @@ from .models import Survey, Question, Response
 from datetime import datetime
 from django.forms import modelform_factory
 from .forms import SurveyForm, QuestionForm
+from django.http import JsonResponse
     
 @login_required
 def create_survey(request):
@@ -56,8 +57,8 @@ def survey_edit(request, survey_id):
             # Save the instance to the database
             question.save()
             
-            # Redirect to the home page or another page
-            form = QuestionForm()
+            # Redirect to the same survey edit page to prevent form resubmission
+            return redirect('survey_edit', survey_id=survey.id)
     else:
         form = QuestionForm()
     return render(request, 'surveys/survey_edit.html', {
@@ -65,8 +66,15 @@ def survey_edit(request, survey_id):
         'survey_questions': survey_questions,
         'question_form': form,
     })
-    
-    
+
+
+@login_required
+def question_delete(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    if question.survey.admin == request.user:
+        question.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'Not authorized'}, status=403)
     
 
 @login_required
