@@ -40,6 +40,7 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey, related_name='questions', on_delete=models.CASCADE)
     question_text = models.CharField(max_length=255)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
+    select_options = models.JSONField(null=True, default=None)
 
     class Meta:
         verbose_name = _("Question")
