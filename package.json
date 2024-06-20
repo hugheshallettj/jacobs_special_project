@@ -1,12 +1,22 @@
 {
-  "name": "jacobs_special_project",
-  "version": "1.0.0",
-  "description": "- `event_surveys_project`: Handles global configurations and settings.\r - `core` App: Manages shared templates, static files, and common views, maintaining modularity and separation of concerns.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "name": "jacobs_special_project",
+    "version": "1.0.0",
+    "description": "- `event_surveys_project`: Handles global configurations and settings.\r - `core` App: Manages shared templates, static files, and common views, maintaining modularity and separation of concerns.",
+    "main": "index.js",
+    "devDependencies": {
+        "sass": "^1.77.6"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build-css": "sass event_surveys_project/core/static/core/css/main.scss event_surveys_project/core/static/core/css/style.css",
+        "watch-css": "sass --watch event_surveys_project/core/static/core/css/main.scss:event_surveys_project/core/static/core/css/style.css"
+    },
+    "dependencies": {
+        "bootstrap": "^5.3.3",
+        "jquery": "^3.7.1",
+        "node": "^22.3.0"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
 }
