@@ -10,17 +10,11 @@
   </form>
 </div>
 {% for question in survey_questions %}
-<div class="panel" style="color: aqua">
+<div>
   <div>
-    <h3 style="font-size: 1.25rem; font-weight: bold; color: #333">
-      {{ question.question_text }}
-    </h3>
-    <p style="margin-top: 8px; font-size: 0.875rem; color: #666">
-      Created: {{ question.question_type }}
-    </p>
-    <p style="margin-top: 8px; font-size: 0.875rem; color: #666">
-      Responses: 124 (still to do)
-    </p>
+    <h3>{{ question.question_text }}</h3>
+    <p>Created: {{ question.question_type }}</p>
+    <p>Responses: 124 (still to do)</p>
     <form method="post" action="{% url 'question_delete' question.id %}">
       {% csrf_token %}
       <button type="submit">Delete</button>
