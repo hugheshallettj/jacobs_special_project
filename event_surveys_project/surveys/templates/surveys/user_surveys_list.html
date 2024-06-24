@@ -13,10 +13,22 @@
           </p>
         </div>
         <div class="card-body">
-          <p id="responses-count"></p>
-          <a class="btn btn-primary" href="{% url 'survey_edit' survey.id %}">
-            Edit
-          </a>
+          <p id="responses-count">Completions: {{survey.completion_count}}</p>
+          <div class="btn-group">
+            <a
+              class="btn btn-outline-primary"
+              href="{% url 'survey_view' survey.id %}"
+              >View Survey <i class="fa fa-eye" aria-hidden="true"></i
+            ></a>
+            <a
+              class="btn btn-outline-secondary"
+              href="{% url 'survey_edit' survey.id %}"
+              >Edit <i class="fa fa-pencil" aria-hidden="true"></i
+            ></a>
+            <button type="button" class="btn btn-del btn-outline-danger" id="btn-del" data-survey-id="{{survey.id}}">
+              Delete <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
       <!-- More survey panels... -->
