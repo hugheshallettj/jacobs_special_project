@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Survey, Question, Response
-from datetime import datetime
+from datetime import datetime, date
 from django.forms import modelform_factory
 from .forms import SurveyForm, QuestionForm
 from django.http import JsonResponse
@@ -27,9 +27,9 @@ def create_survey(request):
     return render(request, 'surveys/create_survey.html', {"form": form})
 
 
-def survey_view(request, link):
-    survey = get_object_or_404(Survey, link=link)
-    if survey.start_date > datetime.today() or survey.end_date < datetime.today():
+def survey_view(request, survey_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    if survey.start_date > date.today() or survey.end_date < date.today() and not survey.admin==request.user:
         return render(request, 'surveys/survey_unavailable.html')
     if request.method == 'POST':
         # Handle survey response submission
@@ -66,7 +66,17 @@ def survey_edit(request, survey_id):
         'survey_questions': survey_questions,
         'question_form': form,
     })
+    
 
+
+
+@login_required
+def survey_delete(request, survey_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    if survey.admin == request.user:
+        survey.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'Not authorized'}, status=403)
 
 @login_required
 def question_delete(request, question_id):

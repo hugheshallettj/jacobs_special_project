@@ -25,8 +25,8 @@ class Survey(models.Model):
     def get_absolute_url(self):
         return reverse("Survey_detail", kwargs={"pk": self.pk})
     
-    def get_completion_count(self):
-        return
+    def completion_count(self):
+        return self.completions.count()
     
 class Question(models.Model):
     
