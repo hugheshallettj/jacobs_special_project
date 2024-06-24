@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _ # this doesnt change the functionality of the code
 from django.conf import settings # this imports the settings so that we can use our custom auth user model
-from datetime import date
+from datetime import date, datetime
 
 # Create your models here.
 class Survey(models.Model):
@@ -25,6 +25,9 @@ class Survey(models.Model):
     def get_absolute_url(self):
         return reverse("Survey_detail", kwargs={"pk": self.pk})
     
+    def get_completion_count(self):
+        return
+    
 class Question(models.Model):
     
     QUESTION_TYPES = (
@@ -40,7 +43,7 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey, related_name='questions', on_delete=models.CASCADE)
     question_text = models.CharField(max_length=255)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
-    select_options = models.JSONField(null=True, default=None)
+    select_options = models.JSONField(null=True, default=list, blank=True)
 
     class Meta:
         verbose_name = _("Question")
@@ -52,11 +55,24 @@ class Question(models.Model):
     def get_absolute_url(self):
         return reverse("Question_detail", kwargs={"pk": self.pk})
     
+class SurveyCompletion(models.Model):
+    
+    survey = models.ForeignKey(Survey, related_name='completions', on_delete=models.CASCADE)
+    completion_date = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = _("Survey Completion")
+        verbose_name_plural = _("Survey Completions")
+
+    def __str__(self):
+        return f"Completion of {self.survey.title} on {self.completion_date}"
+    
 class Response(models.Model):
 
     survey = models.ForeignKey(Survey, related_name='responses', on_delete=models.CASCADE)
     question = models.ForeignKey(Question, related_name='responses', on_delete=models.CASCADE)
     answer = models.TextField()
+    survey_completion = models.ForeignKey(SurveyCompletion, related_name='responses', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Response")
