@@ -2,52 +2,59 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>
-      {% block title %}
-        My Site
-      {% endblock %}
-    </title>
-    <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {% block extra_head %}
-    {% endblock extra_head %}
+    <title>{% block title %} My Site {% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'core/css/style.css' %}"
+    />
+    {% block extra_head %} {% endblock extra_head %}
   </head>
   <body>
     <header>
       <!-- Site-wide navigation and branding -->
-      <nav>
-        <ul>
-          <li>
-            <a href="{% url 'home' %}">Home</a>
-          </li>
-          <li>
-            <a href="{% url 'create_survey' %}">Create Survey</a>
-          </li>
-          {% if user.is_authenticated %}
-            {% comment %} <li>
-              <a href="{% url 'account_profile' %}">Profile</a>
-            </li> {% endcomment %}
-            <li>
-              <a href="{% url 'user_surveys_list' %}">My Surveys</a>
+      <nav class="navbar bg-secondary">
+        <div class="container-fluid">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
-            <li>
-              <a href="{% url 'account_logout' %}">Logout</a>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create_survey' %}"
+                >Create Survey</a
+              >
             </li>
-          {% else %}
-            <li>
-              <a href="{% url 'account_login' %}">Login</a>
+            {% if user.is_authenticated %} {% comment %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_profile' %}">Profile</a>
             </li>
-          {% endif %}
-        </ul>
+            {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user_surveys_list' %}"
+                >My Surveys</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
       </nav>
     </header>
-    <main>
-      {% block content %}
-
-      {% endblock %}
-    </main>
+    <main>{% block content %} {% endblock %}</main>
     <footer>
       <!-- Site-wide footer -->
     </footer>
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
   </body>
 </html>
