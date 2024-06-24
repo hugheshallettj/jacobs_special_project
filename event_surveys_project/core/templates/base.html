@@ -56,5 +56,14 @@
     </footer>
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+      if (typeof jQuery !== "undefined") {
+        console.log("jQuery is loaded");
+        console.log("jQuery version:", $.fn.jquery);
+      } else {
+        console.log("jQuery is not loaded");
+      }
+    </script>
+    {% block custom_js %}{% endblock custom_js %}
   </body>
 </html>

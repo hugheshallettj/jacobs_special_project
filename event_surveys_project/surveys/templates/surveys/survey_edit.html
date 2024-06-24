@@ -10,23 +10,26 @@
   </form>
 </div>
 {% for question in survey_questions %}
-<div>
+<div id="question-card">
   <div>
     <h3>{{ question.question_text }}</h3>
     <p>Created: {{ question.question_type }}</p>
     <p>Responses: 124 (still to do)</p>
-    <form method="post" action="{% url 'question_delete' question.id %}">
-      {% csrf_token %}
-      <button type="submit">Delete</button>
-    </form>
-    <button class="btn-del" data-questionid="{{ question.id }}">Close</button>
+    <button
+      id="btn-del"
+      class="btn btn-primary"
+      data-questionid="{{ question.id }}"
+    >
+      Delete
+    </button>
   </div>
 </div>
 <!-- More survey panels... -->
-{% endfor %}
+{% endfor %} {% endblock %} {% block custom_js %}
+
 <script>
   $(document).ready(function () {
-    $(".btn-del").on("click", function () {
+    $("#btn-del").on("click", function () {
       const button = $(this);
       const question_id = $(this).data("questionid");
       console.log(question_id);
@@ -43,7 +46,7 @@
         },
         success: function (response) {
           if (response.success) {
-            button.closest(".panel").css("display", "none");
+            button.closest("#question-card").css("display", "none");
             console.log("you deleted it");
           } else {
             alert("Failed to delete question: " + response.error);
@@ -53,4 +56,4 @@
     });
   });
 </script>
-{% endblock %}
+{% endblock custom_js %}
