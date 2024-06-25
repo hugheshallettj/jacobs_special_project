@@ -4,7 +4,7 @@
     <h2 class="mb-4">My Surveys</h2>
     <div class="m-2">
       {% for survey in user_surveys %}
-      <div class="card mb-3" id="survey-card">
+      <div class="card mb-3" id="survey-card-{{ survey.id }}">
         <div class="card-body">
           <h4 class="card-title">{{survey.title}}</h4>
           <p class="card-text">Created on: {{survey.date_created}}</p>
@@ -25,7 +25,12 @@
               href="{% url 'survey_edit' survey.id %}"
               >Edit <i class="fa fa-pencil" aria-hidden="true"></i
             ></a>
-            <button type="button" class="btn btn-del btn-outline-danger" id="btn-del" data-survey-id="{{survey.id}}">
+            <button
+              type="button"
+              class="btn btn-del btn-outline-danger survey-delete-button"
+              id="btn-del"
+              data-survey-id="{{survey.id}}"
+            >
               Delete <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
           </div>
@@ -38,8 +43,8 @@
 </div>
 {% endblock content %} {% block custom_js %}
 <script>
-    $(document).ready(function () {
-    $("#btn-del").on("click", function () {
+  $(document).ready(function () {
+    $(".survey-delete-button").on("click", function () {
       const button = $(this);
       const survey_id = $(this).data("survey-id");
       console.log(survey_id);
@@ -56,7 +61,7 @@
         },
         success: function (response) {
           if (response.success) {
-            button.closest("#survey-card").css("display", "none");
+            button.closest(".card").css("display", "none");
             console.log("you deleted it");
           } else {
             alert("Failed to delete question: " + response.error);
@@ -65,6 +70,5 @@
       });
     });
   });
-</script>
 </script>
 {% endblock custom_js %}
