@@ -47,10 +47,19 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     
     'rest_framework',
+    
+    'crispy_forms',
+    'crispy_bootstrap5',
+    
     'accounts',
     'surveys',
     'core',
+    
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
