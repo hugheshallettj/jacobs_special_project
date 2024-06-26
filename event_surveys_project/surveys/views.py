@@ -86,6 +86,14 @@ def question_delete(request, question_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False, 'error': 'Not authorized'}, status=403)
     
+@login_required
+def update_question_order(request):
+    if request.method == 'POST':
+        order = request.POST.getlist('order[]')
+        for index, question_id in enumerate(order):
+            Question.objects.filter(id=question_id).update(position=index)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
 
 @login_required
 def survey_results(request, survey_id):

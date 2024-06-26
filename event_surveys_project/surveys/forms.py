@@ -19,7 +19,9 @@ class QuestionForm(forms.ModelForm):
         model = Question
         exclude = ["survey"]
         widgets = {
-            'select_options': forms.HiddenInput()
+            'select_options': forms.HiddenInput(),
+            'position': forms.HiddenInput(),
+            
         }
     
     def __init__(self, *args, **kwargs):

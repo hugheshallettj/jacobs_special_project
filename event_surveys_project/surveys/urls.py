@@ -10,6 +10,7 @@ urlpatterns = [
     path('my-surveys/', survey_views.user_surveys_list, name='user_surveys_list'),
     path('survey-edit/<int:survey_id>/', survey_views.survey_edit, name='survey_edit'),
     path('question/<int:question_id>/delete', survey_views.question_delete, name="question_delete"),
-    path("survey/<int:survey_id>/delete", survey_views.survey_delete, name='survey_delete')
-    
+    path("survey/<int:survey_id>/delete", survey_views.survey_delete, name='survey_delete'),
+    path('update-question-order/', survey_views.update_question_order, name='update_question_order'),
+
 ]
