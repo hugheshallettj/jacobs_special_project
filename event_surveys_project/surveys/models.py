@@ -44,16 +44,25 @@ class Question(models.Model):
     question_text = models.CharField(max_length=255)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
     select_options = models.JSONField(null=True, default=list, blank=True)
+    position = models.PositiveIntegerField(default=0)  # New field for question order
+
 
     class Meta:
         verbose_name = _("Question")
         verbose_name_plural = _("Questions")
+        ordering = ['position']
 
     def __str__(self):
         return self.question_text
 
     def get_absolute_url(self):
         return reverse("Question_detail", kwargs={"pk": self.pk})
+    
+    def save(self, *args, **kwargs):
+        if self.position == 0:
+            last_position = Question.objects.filter(survey=self.survey).count()
+            self.position = last_position + 1
+        super().save(*args, **kwargs)
     
 class SurveyCompletion(models.Model):
     
