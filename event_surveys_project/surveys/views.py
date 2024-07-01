@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Survey, Question, Response
 from datetime import datetime
 from django.forms import modelform_factory
-from .forms import SurveyForm
+from .forms import SurveyForm, QuestionForm
+from django.http import JsonResponse
     
 @login_required
 def create_survey(request):
@@ -35,9 +36,45 @@ def survey_view(request, link):
         pass
     return render(request, 'surveys/survey_view.html', {'survey': survey})
 
+@login_required
 def user_surveys_list(request):
     user_surveys = Survey.objects.filter(admin=request.user)
     return render(request, 'surveys/user_surveys_list.html', {'user_surveys': user_surveys})
+
+@login_required
+def survey_edit(request, survey_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    survey_questions = Question.objects.filter(survey=survey)
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            # Create a Survey instance without saving it to the database
+            question = form.save(commit=False)
+            
+            # Set the admin field to the currently logged-in user
+            question.survey = survey
+            
+            # Save the instance to the database
+            question.save()
+            
+            # Redirect to the same survey edit page to prevent form resubmission
+            return redirect('survey_edit', survey_id=survey.id)
+    else:
+        form = QuestionForm()
+    return render(request, 'surveys/survey_edit.html', {
+        'survey': survey,
+        'survey_questions': survey_questions,
+        'question_form': form,
+    })
+
+
+@login_required
+def question_delete(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    if question.survey.admin == request.user:
+        question.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'Not authorized'}, status=403)
     
 
 @login_required

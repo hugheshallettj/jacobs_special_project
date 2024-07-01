@@ -39,13 +39,14 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey, related_name='questions', on_delete=models.CASCADE)
     question_text = models.CharField(max_length=255)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
+    select_options = models.JSONField(null=True, default=None)
 
     class Meta:
         verbose_name = _("Question")
         verbose_name_plural = _("Questions")
 
     def __str__(self):
-        return self.name
+        return self.question_text
 
     def get_absolute_url(self):
         return reverse("Question_detail", kwargs={"pk": self.pk})

@@ -1,11 +1,10 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <h2>Create Survey</h2>
 <form method="post">
   {% csrf_token %}
   <table>
     {{form}}
   </table>
-  <button type="submit">Create Survey</button>
+  <button class="btn btn-primary" type="submit">Create Survey</button>
 </form>
 {% endblock %}

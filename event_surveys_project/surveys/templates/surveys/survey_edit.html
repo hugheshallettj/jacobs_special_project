@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block content %}
+<h1>{{ survey.title }}</h1>
+<div class="panel">
+  <form method="post">
+    {% csrf_token %}
+    <table>
+      {{ question_form }}
+    </table>
+    <button type="submit">Create Question</button>
+  </form>
+</div>
+{% for question in survey_questions %}
+<div>
+  <div>
+    <h3>{{ question.question_text }}</h3>
+    <p>Created: {{ question.question_type }}</p>
+    <p>Responses: 124 (still to do)</p>
+    <form method="post" action="{% url 'question_delete' question.id %}">
+      {% csrf_token %}
+      <button type="submit">Delete</button>
+    </form>
+    <button class="btn-del" data-questionid="{{ question.id }}">Close</button>
+  </div>
+</div>
+<!-- More survey panels... -->
+{% endfor %}
+<script>
+  $(document).ready(function () {
+    $(".btn-del").on("click", function () {
+      const button = $(this);
+      const question_id = $(this).data("questionid");
+      console.log(question_id);
+      const url = `{% url 'question_delete' 0 %}`.replace(
+        "/0/",
+        `/${question_id}/`
+      );
+      console.log(url);
+      $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (response) {
+          if (response.success) {
+            button.closest(".panel").css("display", "none");
+            console.log("you deleted it");
+          } else {
+            alert("Failed to delete question: " + response.error);
+          }
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
