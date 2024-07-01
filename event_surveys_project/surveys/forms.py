@@ -2,7 +2,7 @@ from django import forms
 from .models import Survey, Question
 
 
-class SurveyForm(forms.ModelForm):
+class SurveyCreationForm(forms.ModelForm):
     start_date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date'})
     )
