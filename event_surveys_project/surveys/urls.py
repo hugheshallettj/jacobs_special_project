@@ -12,5 +12,6 @@ urlpatterns = [
     path('question/<int:question_id>/delete', survey_views.question_delete, name="question_delete"),
     path("survey/<int:survey_id>/delete", survey_views.survey_delete, name='survey_delete'),
     path('update-question-order/', survey_views.update_question_order, name='update_question_order'),
+    path('survey-finished', survey_views.survey_thank_you, name="survey_thank_you")
 
 ]
