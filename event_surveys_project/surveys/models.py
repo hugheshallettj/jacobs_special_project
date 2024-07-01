@@ -36,7 +36,6 @@ class Question(models.Model):
         ('INT', 'Integer'),
     )
 
-    
     survey = models.ForeignKey(Survey, related_name='questions', on_delete=models.CASCADE)
     question_text = models.CharField(max_length=255)
     question_type = models.CharField(max_length=3, choices=QUESTION_TYPES)
