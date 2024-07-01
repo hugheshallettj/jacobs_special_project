@@ -3,13 +3,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Survey, Question, Response
 from datetime import datetime, date
 from django.forms import modelform_factory
-from .forms import SurveyForm, QuestionForm
-from django.http import JsonResponse
+from .forms import SurveyCreationForm, QuestionForm, generate_survey_form
     
 @login_required
 def create_survey(request):
     if request.method == 'POST':
-        form = SurveyForm(request.POST)
+        form = SurveyCreationForm(request.POST)
         if form.is_valid():
             # Create a Survey instance without saving it to the database
             survey = form.save(commit=False)
@@ -23,7 +22,7 @@ def create_survey(request):
             # Redirect to the home page or another page
             return redirect("home")
     else:
-        form = SurveyForm()
+        form = SurveyCreationForm()
     return render(request, 'surveys/create_survey.html', {"form": form})
 
 
