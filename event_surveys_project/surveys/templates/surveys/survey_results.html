@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Results for Survey: {{ survey.title }}</h1>
+
+{% for question in questions %}
+<div class="question-results">
+  <h3>{{ question.question_text }}</h3>
+  {% if question.question_type in 'MS SS' %}
+  <ul>
+    {% comment %} {% for option, count in stats|default:dict.items %}
+    <li>{{ option }}: {{ count }} responses</li>
+    {% endfor %} {% endcomment %}
+  </ul>
+  {% comment %} {% elif question.question_type == 'INT' %}
+
+  <p>Average: {{ stats.question.id.average }}</p>
+  <p>Min: {{ stats.question.id.min }}</p>
+  <p>Max: {{ stats.question.id..max }}</p>
+  {% endcomment %} {% else %}
+  <p>Total Responses: {{ stats }}</p>
+  {% endif %}
+</div>
+{% endfor %}
+
+<h2>All Responses</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for response in responses %}
+    <tr>
+      <td>{{ response.question.question_text }}</td>
+      <td>{{ response.answer }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
