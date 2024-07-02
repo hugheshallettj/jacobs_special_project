@@ -25,6 +25,11 @@
               href="{% url 'survey_edit' survey.id %}"
               >Edit <i class="fa fa-pencil" aria-hidden="true"></i
             ></a>
+            <a
+              class="btn btn-outline-warning"
+              href="{% url 'survey_results' survey.id %}"
+              >Results <i class="fa fa-poll"></i
+            ></a>
             <button
               type="button"
               class="btn btn-del btn-outline-danger survey-delete-button"
