@@ -1,9 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Survey, Question, Response
+from .models import Survey, Question, Response, SurveyCompletion
 from datetime import datetime, date
 from django.forms import modelform_factory
 from .forms import SurveyCreationForm, QuestionForm, generate_survey_form
+from django.http import JsonResponse, HttpResponse
+import json
+from collections import Counter
+import logging
+logger = logging.getLogger(__name__)
+
     
 @login_required
 def create_survey(request):
@@ -25,15 +31,40 @@ def create_survey(request):
         form = SurveyCreationForm()
     return render(request, 'surveys/create_survey.html', {"form": form})
 
-
+# View to handle the display and submission of the survey
 def survey_view(request, survey_id):
+    # Get the survey object, or return a 404 error if not found
     survey = get_object_or_404(Survey, id=survey_id)
-    if survey.start_date > date.today() or survey.end_date < date.today() and not survey.admin==request.user:
-        return render(request, 'surveys/survey_unavailable.html')
+    
+    # Generate a dynamic form for the survey based on its questions
+    SurveyForm = generate_survey_form(survey)
+    
     if request.method == 'POST':
-        # Handle survey response submission
-        pass
-    return render(request, 'surveys/survey_view.html', {'survey': survey})
+        # Form submission handling
+        form = SurveyForm(request.POST)
+        if form.is_valid():
+            # Create a SurveyCompletion object to track the completion of the survey
+            completion = SurveyCompletion.objects.create(survey=survey)
+            # Iterate over all questions in the survey and save the responses
+            for question in survey.questions.all():
+                response = Response(
+                    survey=survey,
+                    question=question,
+                    answer=form.cleaned_data[f'question_{question.id}'],
+                    survey_completion=completion
+                )
+                response.save()
+            # Redirect to a thank-you page after successfully saving responses
+            return redirect('survey_thank_you')
+    else:
+        # If the request method is GET, display an empty form
+        form = SurveyForm()
+    
+    # Render the survey form
+    return render(request, 'surveys/survey_view.html', {
+        'survey': survey,
+        'form': form,
+    })
 
 @login_required
 def user_surveys_list(request):
