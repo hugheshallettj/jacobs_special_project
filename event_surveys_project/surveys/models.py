@@ -87,7 +87,7 @@ class Response(models.Model):
         verbose_name_plural = _("Responses")
 
     def __str__(self):
-        return self.name
+        return f"Response {self.id}: {self.answer[0:10]}... - {self.question.question_text[0:10]}..."
 
     def get_absolute_url(self):
         return reverse("Response_detail", kwargs={"pk": self.pk})
