@@ -127,7 +127,76 @@ def update_question_order(request):
 
 @login_required
 def survey_results(request, survey_id):
+    """
+    View to display survey results.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        survey_id (int): The ID of the survey to display results for.
+
+    Returns:
+        HttpResponse: An HTTP response containing the survey results page.
+
+    Raises:
+        Http404: If the specified survey does not exist.
+
+    Ensures:
+        The current user is the admin of the survey.
+        Fetches all questions and responses for the survey.
+        Calculates statistics for each question based on its type.
+        Renders the survey results page with the survey, questions, responses, and statistics.
+    """
+    # Get the survey object, or return a 404 error if not found
     survey = get_object_or_404(Survey, id=survey_id)
+    
+    # Ensure the current user is the admin of the survey
+    if survey.admin != request.user:
+        return redirect('home')  # Redirect to home if not authorized
+
+    # Fetch all questions and responses for the survey
+    questions = survey.questions.all()
+    responses = survey.responses.all()
+
+    # Calculate statistics
+    stats = {}
+    for question in questions:
+        question_responses = responses.filter(question=question)
+        if question.question_type in ['MS', 'SS']:
+            # For multi-select and single-select questions, count occurrences of each option
+            all_answers = []
+            for response in question_responses:
+                answer = response.answer
+                if question.question_type == 'MS':
+                    try:
+                        answer = json.loads(answer)  # Parse JSON list
+                    except json.JSONDecodeError as e:
+                        logger.error(f"Error decoding JSON for response ID {response.id}: {e}")
+                        continue  # Skip this response if it's invalid
+                else:
+                    answer = [answer]
+                all_answers.extend(answer)
+            options_count = dict(Counter(all_answers))
+            stats[question.id] = options_count
+        elif question.question_type == 'INT':
+            # For integer questions, calculate average, min, max
+            int_answers = [int(response.answer) for response in question_responses]
+            if int_answers:
+                stats[question.id] = {
+                    'average': sum(int_answers) / len(int_answers),
+                    'min': min(int_answers),
+                    'max': max(int_answers),
+                }
+        else:
+            # For text responses, just count the number of responses
+            stats[question.id] = len(question_responses)
+    
+    return render(request, 'surveys/survey_results.html', {
+        'survey': survey,
+        'questions': questions,
+        'responses': responses,
+        'stats': stats,
+    })
+
 # View to display a thank-you message after survey submission
 def survey_thank_you(request):
     return HttpResponse("Thank you for completing the survey.")
