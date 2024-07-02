@@ -97,5 +97,6 @@ def update_question_order(request):
 @login_required
 def survey_results(request, survey_id):
     survey = get_object_or_404(Survey, id=survey_id)
-    responses = Response.objects.filter(survey=survey)
-    return render(request, 'surveys/results.html', {'survey': survey, 'responses': responses})
+# View to display a thank-you message after survey submission
+def survey_thank_you(request):
+    return HttpResponse("Thank you for completing the survey.")
