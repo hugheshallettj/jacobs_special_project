@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block content %}
+<div>
+  <div class="m-5">
+    <h2 class="mb-4">My Surveys</h2>
+    <div class="m-2">
+      {% for survey in user_surveys %}
+      <div class="card mb-3" id="survey-card-{{ survey.id }}">
+        <div class="card-body">
+          <h4 class="card-title">{{survey.title}}</h4>
+          <p class="card-text">Created on: {{survey.date_created}}</p>
+          <p class="card-text">
+            Runs from: {{survey.start_date}} to {{survey.end_date}}
+          </p>
+        </div>
+        <div class="card-body">
+          <p id="responses-count">Completions: {{survey.completion_count}}</p>
+          <div class="btn-group">
+            <a
+              class="btn btn-outline-primary"
+              href="{% url 'survey_view' survey.id %}"
+              >View Survey <i class="fa fa-eye" aria-hidden="true"></i
+            ></a>
+            <a
+              class="btn btn-outline-secondary"
+              href="{% url 'survey_edit' survey.id %}"
+              >Edit <i class="fa fa-pencil" aria-hidden="true"></i
+            ></a>
+            <button
+              type="button"
+              class="btn btn-del btn-outline-danger survey-delete-button"
+              id="btn-del"
+              data-survey-id="{{survey.id}}"
+            >
+              Delete <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- More survey panels... -->
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block custom_js %}
+<script>
+  $(document).ready(function () {
+    $(".survey-delete-button").on("click", function () {
+      const button = $(this);
+      const survey_id = $(this).data("survey-id");
+      console.log(survey_id);
+      const url = `{% url 'survey_delete' 0 %}`.replace(
+        "/0/",
+        `/${survey_id}/`
+      );
+      console.log(url);
+      $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        success: function (response) {
+          if (response.success) {
+            button.closest(".card").css("display", "none");
+            console.log("you deleted it");
+          } else {
+            alert("Failed to delete question: " + response.error);
+          }
+        }
+      });
+    });
+  });
+</script>
+{% endblock custom_js %}

@@ -1,0 +1,11 @@
+asgiref==3.8.1
+crispy-bootstrap5==2024.2
+Django==5.0.6
+django-allauth==0.63.3
+django-crispy-forms==2.2
+django-rest-framework==0.1.0
+djangorestframework==3.15.2
+npm==0.1.1
+optional-django==0.1.0
+sqlparse==0.5.0
+tzdata==2024.1

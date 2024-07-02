@@ -1,7 +1,8 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*/__pycache__/
 *.py[cod]
 *$py.class
+*/migrations/__pycache__/
 
 # C extensions
 *.so
@@ -137,3 +138,5 @@ yarn-error.log
 Network Trash Folder
 Temporary Items
 .apdisk
+
+new_env
